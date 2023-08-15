@@ -2,8 +2,8 @@ import sys
 import socket
 import threading
 
-HEX_FILTER = ''.json(
-    [len((repr(chr(i))) == 3) and chr(i) or '.' for i in range (256)]
+HEX_FILTER = ''.join(
+    [(len(repr(chr(i))) == 3) and chr(i) or '.' for i in range (256)]
 )
 
 def hexdump(src, length=16, show=True):
@@ -74,7 +74,7 @@ def proxy_handler(client_socket, remote_host, remote_port, receive_first):
             client_socket.send(remote_buffer)
             print("[==>] Sent to local.")
 
-        if not len(local_buffer or not len(remote_buffer)):
+        if not len(local_buffer) or not len(remote_buffer):
             client_socket.close()
             remote_socket.close()
             print("[*] No more data. Closing connections.")
